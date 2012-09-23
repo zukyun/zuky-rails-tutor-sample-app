@@ -32,7 +32,7 @@ development:
   username: sample_app
   password: 7ujmnhy6
     
-test: &TEST 
+test: &test
   adapter: postgresql
   encoding: utf8
   database: sample_app_test
@@ -51,3 +51,6 @@ production:
   port: 5432
     
 
+
+cucumber:
+  <<: *test
