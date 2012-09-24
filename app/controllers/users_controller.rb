@@ -3,6 +3,7 @@ class UsersController < ApplicationController
   before_filter :signed_in_user, only: [:edit, :update, :index, :destroy]
   before_filter :correct_user, only: [:edit, :update]
   before_filter :admin_user, only: [:destroy]
+  before_filter :signed_out_user, only: [:new, :create]
   
   def destroy
     User.find(params[:id]).destroy
@@ -51,7 +52,7 @@ class UsersController < ApplicationController
   def signed_in_user
     unless signed_in?
       store_location
-      redirect_to signin_path, notice: "Please sign in."
+      redirect_to(signin_path, notice: "Please sign in.")
     end
   end
   
@@ -62,6 +63,12 @@ class UsersController < ApplicationController
   
   def admin_user
     redirect_to(root_path) unless current_user.admin?
+  end
+  
+  def signed_out_user
+    unless !signed_in?
+      redirect_to(root_path, notice: "You are already signed up!")
+    end
   end
   
 end
